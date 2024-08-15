@@ -41,6 +41,44 @@ import { useRouter } from "next/navigation"
 import { DrawerLoan } from "../loan/add-loan-drawer"
 import { DrawerDemo } from "./add-client-drawer"
 
+const CellActions = ({ row } : {row: any}) => {
+  //const payment = row.original
+
+  const router = useRouter()
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" >
+        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+        <DropdownMenuSeparator className="border border-slate-700"  />
+        <DropdownMenuItem
+          onClick={() => router.push(`/editClient/${row.original.id}`)}
+          className="flex flex-row gap-2  hover:cursor-pointer"
+        >
+          <Edit /> <span>Editar</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          
+          className="flex flex-row gap-2  hover:cursor-pointer "
+        >
+          <Trash color="red" /> <span className="text-red-500">Eliminar</span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator className="border border-slate-700"  />
+        <DropdownMenuItem className="flex flex-row gap-2 hover:cursor-pointer font-medium " onClick={() => router.push(`/loans/${row.original.id}`)} >
+          <DollarSign /> Crear Préstamo
+        </DropdownMenuItem>
+       
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
 
 export const columns: ColumnDefWithActions<Client>[] = [
   {
@@ -106,43 +144,7 @@ export const columns: ColumnDefWithActions<Client>[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      //const payment = row.original
-
-      const router = useRouter()
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" >
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuSeparator className="border border-slate-700"  />
-            <DropdownMenuItem
-              onClick={() => router.push(`/editClient/${row.original.id}`)}
-              className="flex flex-row gap-2  hover:cursor-pointer"
-            >
-              <Edit /> <span>Editar</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              
-              className="flex flex-row gap-2  hover:cursor-pointer "
-            >
-              <Trash color="red" /> <span className="text-red-500">Eliminar</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator className="border border-slate-700"  />
-            <DropdownMenuItem className="flex flex-row gap-2 hover:cursor-pointer font-medium " onClick={() => router.push(`/loans/${row.original.id}`)} >
-              <DollarSign /> Crear Préstamo
-            </DropdownMenuItem>
-           
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
+    cell: CellActions
   },
 ]
 

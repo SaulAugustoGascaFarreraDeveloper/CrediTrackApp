@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+model User{
+  id      String   @id   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerkId String   @unique
+  name    String   
+  email   String   @unique
+
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  clients  Client[]
+
+}
+
+
+model Client{
+
+  id          String    @id  @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  lastName    String
+  phone       String   @unique
+
+
+  userId      String  @db.Uuid
+  user        User    @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+
+  loans      Loan[]
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+}
+
+
+model Loan{
+  id                 String    @id   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  startDate          DateTime
+  endDate            DateTime
+  totalAmount        Float
+  interestRate       Float     @default(20)
+  greatTotalAmount   Float?
+  remainingBalance   Float?
+  moneyNotReceived   Float?
+  renewal            Boolean   @default(false)
+
+  clientId            String    @db.Uuid
+  client             Client    @relation(fields: [clientId],references: [id],onDelete: Cascade)
+
+
+  payments           Payment[]
+
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+}
+
+model Payment{
+  id                String     @id  @default(dbgenerated("gen_random_uuid()"))  @db.Uuid
+  hasPay            Boolean
+  paymentDate       DateTime?
+  paymentAmount     Float?
+  paymentNumber     Int?
+  loanId            String    @db.Uuid
+  loan              Loan      @relation(fields: [loanId],references: [id],onDelete: Cascade)
+
+
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}

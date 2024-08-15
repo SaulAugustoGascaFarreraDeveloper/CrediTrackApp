@@ -28,6 +28,7 @@ export function DrawerDemo() {
     <Drawer>
       <DrawerTrigger asChild>
         <Button variant="outline" className="gap-x-2">Agregar Cliente <Plus /> </Button>
+       
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
@@ -38,21 +39,22 @@ export function DrawerDemo() {
           <div className="p-4 pb-0">
             <div className="flex items-center justify-center">
               
-              <form onSubmit={onSubmitClient} className="flex flex-col gap-6 mt-1" >
+              <form  onSubmit={onSubmitClient} className="flex flex-col gap-6 mt-1" >
                  <FormGenerator type="text" register={register} name="name" 
                   placeholder="Ingresa el nombre" 
                   errors={errors} inputType="input"  
                   />
                    <FormGenerator type="text" register={register} name="lastName" 
                     placeholder="Ingresa el apellido" 
-                    errors={errors} inputType="input"  
+                    errors={errors} inputType="input"
+                      
                   />
                   <FormGenerator type="text" register={register} name="phone" 
                     placeholder="Ingresa el telefono" 
                     errors={errors} inputType="input"  
                   />
                   <DrawerFooter>
-                    <Button type="submit" className="" >
+                    <Button type="submit" className="" disabled={loading} >
                       {loading ? <Loader2 className="animate-spin" /> : "Agregar Cliente"}
                     </Button>
                     <DrawerClose asChild>

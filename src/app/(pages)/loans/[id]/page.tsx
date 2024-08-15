@@ -84,7 +84,7 @@ const CreateLoanPage = ({params} : CreateLoanPage) => {
          <Form {...form}>
 
                         <form onSubmit={form.handleSubmit(onSubmitLoan)} className="flex flex-col gap-6 mt-1" >
-                            <div className="flex flex-row gap-5">
+                            <div className="flex lg:flex-row md:flex-row gap-5 flex-col">
 
                             <FormField 
                                     control={form.control}
@@ -100,6 +100,7 @@ const CreateLoanPage = ({params} : CreateLoanPage) => {
                                                         "w-[280px] justify-start text-left font-normal ",
                                                         !date && "text-muted-foreground"
                                                     )}
+                                                    disabled={isLoading}
                                                     >
                                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                                     {date ? format(date, "PPP") : <span className='ml-1'>Elige un fecha</span>}
@@ -171,14 +172,14 @@ const CreateLoanPage = ({params} : CreateLoanPage) => {
                                 render={({field}) => (
                                     <FormItem>
                                         <FormControl>
-                                        <Input {...field} placeholder="Ingresa el monto prestado" type="number" />
+                                        <Input disabled={isLoading} {...field} placeholder="Ingresa el monto prestado" type="number" />
                                         </FormControl>
                                     </FormItem>
                                 
                                 )}
                             />
 
-                            <Button type="submit"  className=""  >
+                            <Button type="submit"  className="" disabled={isLoading}  >
                                 {isLoading ? <Loader2 className="animate-spin" /> : "Agregar Cliente"}
                             </Button>
 

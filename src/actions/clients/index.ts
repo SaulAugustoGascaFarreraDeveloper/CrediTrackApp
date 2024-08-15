@@ -66,7 +66,7 @@ export const  onCreateClient = async (name: string,lastName: string,phone: strin
 }
 
 
-export const onGetAllClients = async (clerkId: string) => {
+export const onGetAllClients = async () => {
 
     try{
 
@@ -76,7 +76,7 @@ export const onGetAllClients = async (clerkId: string) => {
 
         const clients = await db.client.findMany({
             //take: 17,
-            skip: (1 - 1) * 17,
+            //skip: (1 - 1) * 17,
             select:{
                 name: true,
                 phone: true,
@@ -100,20 +100,12 @@ export const onGetAllClients = async (clerkId: string) => {
 
 
 
-export const onGetTotalClient = async () => {
+export const onGetTotalClients = async () => {
 
     try{
 
 
-        const clients = await db.client.count({
-            where:{
-                userId: 'd3213d91-002f-432c-99c5-45dd1f02eab8'
-            },
-            
-        })
-
-        console.log(clients)
-
+        const clients = await db.client.count()
 
         return clients
 
@@ -204,6 +196,31 @@ export const onGetValidClient = async (id: string) => {
 
     }catch(error){
         console.log("On Get Valid Client Error --> ",error)
+    }
+
+}
+
+export const onDeleteClient = async (id: string) => {
+
+
+    try{
+
+        const loan = await db.client.delete({
+            where:{
+                id: id
+            }
+        })
+
+
+        if(loan){
+            return {status: 200,message: "Cliente Eliminado Exitosamente"}
+        }
+
+        return {status: 400,message: "Oops hubo un error"}
+
+    }catch(error)
+    {
+        console.log("On Delete Loan Error --> ",error)
     }
 
 }

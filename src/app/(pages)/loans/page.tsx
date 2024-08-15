@@ -2,12 +2,13 @@
 import { onGetAllLoans } from '@/actions/loans'
 import { DrawerLoan } from '@/components/loan/add-loan-drawer'
 import { DataTableLoans } from '@/components/loan/loan-data-table'
+import RouteMenuButton from '@/components/shared/route-menu-button'
 import { Loan } from '@prisma/client'
 import React, { useEffect, useState } from 'react'
 
 const LoansPage = () => {
 
-  const [isLoans,setIsLoans] = useState<{clientd: true,startDate: Date,endDate: Date,totalAmount: string}[] | undefined>([])
+  const [isLoans,setIsLoans] = useState<Loan[] | undefined>([])
 
 
   const handleLoans = async() => {
@@ -27,7 +28,11 @@ const LoansPage = () => {
       
         <h2 className='font-semibold'>Tabla de Préstamos</h2> 
       
-      <DataTableLoans data={isLoans as [] || []} />
+        <DataTableLoans data={isLoans as [] || []} />
+
+        <div>
+          <RouteMenuButton />
+        </div>
     </div>
   )
 }

@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { onGetTotalClient } from '@/actions/clients'
 
 type MenuCardProps = {
     title: string
     description: string
     content: string
     route: string
-    countNumber: number
+    countNumber?: number
 }
 
 const handleChangeRoute = () => {
@@ -36,7 +35,7 @@ const MenuCard = ({title,description,content,route,countNumber} : MenuCardProps)
         </CardHeader>
         <CardContent>
             <h2>{content}</h2>
-            <p>Cantidad: {countNumber}</p>
+            {/* <p>Cantidad: {countNumber}</p> */}
         </CardContent>
     </Card>
   )

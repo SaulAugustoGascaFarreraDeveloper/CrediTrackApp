@@ -2,18 +2,24 @@
 import { onCreateClient, onGetAllClients } from '@/actions/clients'
 import { DrawerDemo } from '@/components/client/add-client-drawer'
 import { DataTableDemo } from '@/components/client/client-data-table'
+import RouteMenuButton from '@/components/shared/route-menu-button'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useClient } from '@/hooks/clients/use-clients'
 import { currentUser } from '@clerk/nextjs/server'
+import { Client } from '@prisma/client'
 import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const ClientsPage = () => {
 
 
-    const [isClients,setIsClients] = useState<{name: string,phone: true}[] | undefined>([])
+    const [isClients,setIsClients] = useState<Client[] | undefined>([])
 
+    const router = useRouter()
+
+    
 
 
     const getClients = async () => {
@@ -22,7 +28,7 @@ const ClientsPage = () => {
 
         // if(!user) return
 
-        const clients = await onGetAllClients("aacc83b2-1262-4a49-9fa6-b3fa0e54d2c5")
+        const clients = await onGetAllClients()
 
         if(clients){
             setIsClients(clients.clients as []  | undefined)
@@ -50,6 +56,12 @@ const ClientsPage = () => {
         </div>
 
         <DataTableDemo data={isClients as [] || []} />
+
+        <div>
+        <RouteMenuButton />
+        </div>
+        
+      
 
     </div>
 

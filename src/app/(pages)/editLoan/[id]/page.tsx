@@ -1,5 +1,6 @@
 "use client"
 import { onGetOneLoanData, onUpdateLoanData } from '@/actions/loans'
+import RouteMenuButton from '@/components/shared/route-menu-button'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
@@ -117,6 +118,7 @@ const EditLoan = ({params} : EditLoanProps) => {
                   <Popover>
                                     <PopoverTrigger  asChild>
                                         <Button
+                                        disabled={loading}
                                         variant={"outline"}
                                         className={cn(
                                             "w-[280px] justify-start text-left font-normal ",
@@ -148,7 +150,7 @@ const EditLoan = ({params} : EditLoanProps) => {
             render={({field}) => (
               <FormItem>
                   <FormControl>
-                  <Input type='number'  defaultValue={loan?.totalAmount}  value={field.value} onChange={field.onChange}  />
+                  <Input disabled={loading} type='number'  defaultValue={loan?.totalAmount}  value={field.value} onChange={field.onChange}  />
                  
                   </FormControl>
               </FormItem>
@@ -159,7 +161,9 @@ const EditLoan = ({params} : EditLoanProps) => {
               {loading ? <Loader2Icon className='animate-spin' /> : "ACTUALIZAR"}
           </Button>
       </form>
-    </Form>        
+    </Form> 
+
+    <RouteMenuButton />       
 
     </div>
     

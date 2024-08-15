@@ -1,6 +1,7 @@
 "use client"
 import { onGetClientData, onUpdateClientData } from '@/actions/clients'
 import FormGenerator from '@/components/shared/form-generator'
+import RouteMenuButton from '@/components/shared/route-menu-button'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -56,10 +57,10 @@ const EditClientPage = ({params} : EditClientPageProps) => {
 
       setLoading(true)
 
-      const r = await onUpdateClientData(params.id,form.getValues().name,form.getValues().lastName,form.getValues().phone)
+      await onUpdateClientData(params.id,form.getValues().name,form.getValues().lastName,form.getValues().phone)
 
 
-      console.log(r)
+      router.push('/clients')
 
     }catch(error)
     {
@@ -94,7 +95,7 @@ const EditClientPage = ({params} : EditClientPageProps) => {
             render={({field}) => (
               <FormItem>
                   <FormControl>
-                    <Input defaultValue={isClient?.name} value={field.value} onChange={field.onChange} />
+                    <Input disabled={loading} defaultValue={isClient?.name} value={field.value} onChange={field.onChange} />
                   </FormControl>
               </FormItem>
             )}
@@ -107,7 +108,7 @@ const EditClientPage = ({params} : EditClientPageProps) => {
             render={({field}) => (
               <FormItem>
                   <FormControl>
-                    <Input defaultValue={isClient?.lastName} value={field.value} onChange={field.onChange} />
+                    <Input disabled={loading} defaultValue={isClient?.lastName} value={field.value} onChange={field.onChange} />
                   </FormControl>
               </FormItem>
             )}
@@ -121,17 +122,19 @@ const EditClientPage = ({params} : EditClientPageProps) => {
             render={({field}) => (
               <FormItem>
                   <FormControl>
-                    <Input defaultValue={isClient?.phone} value={field.value} onChange={field.onChange} />
+                    <Input disabled={loading} defaultValue={isClient?.phone} value={field.value} onChange={field.onChange} />
                   </FormControl>
               </FormItem>
             )}
 
             />
-          <Button type='submit' >
+          <Button type='submit' disabled={loading} >
               {loading ? <Loader className='animate-spin' /> : "Actualizar"}
           </Button>
         </form>
       </Form>
+
+      <RouteMenuButton  />
 
     
        

@@ -40,11 +40,34 @@ import { ColumnDefWithActions } from "@/lib/types"
 import { useRouter } from "next/navigation"
 import { DrawerLoan } from "../loan/add-loan-drawer"
 import { DrawerDemo } from "./add-client-drawer"
+import { onDeleteClient } from "@/actions/clients"
+
+const handleDeleteClient = async (id: string) => {
+
+  await onDeleteClient(id)
+
+}
+
 
 const CellActions = ({ row } : {row: any}) => {
   //const payment = row.original
 
   const router = useRouter()
+
+
+  const handleEditClientRoute = (e: any) =>{
+    e.preventDefault()
+
+    router.push(`/editClient/${row.original.id}`)
+  }
+
+  const handleGoToLoan = (e: any) =>{
+    e.preventDefault()
+
+    router.push(`/loans/${row.original.id}`)
+  }
+
+  
 
   return (
     <DropdownMenu>
@@ -58,19 +81,19 @@ const CellActions = ({ row } : {row: any}) => {
         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
         <DropdownMenuSeparator className="border border-slate-700"  />
         <DropdownMenuItem
-          onClick={() => router.push(`/editClient/${row.original.id}`)}
+          onClick={handleEditClientRoute}
           className="flex flex-row gap-2  hover:cursor-pointer"
         >
-          <Edit /> <span>Editar</span>
+          <Edit   /> <span>Editar</span>
         </DropdownMenuItem>
         <DropdownMenuItem
-          
+          onClick={() => handleDeleteClient(row.original.id)}
           className="flex flex-row gap-2  hover:cursor-pointer "
         >
           <Trash color="red" /> <span className="text-red-500">Eliminar</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator className="border border-slate-700"  />
-        <DropdownMenuItem className="flex flex-row gap-2 hover:cursor-pointer font-medium " onClick={() => router.push(`/loans/${row.original.id}`)} >
+        <DropdownMenuItem onClick={handleGoToLoan} className="flex flex-row gap-2 hover:cursor-pointer font-medium "  >
           <DollarSign /> Crear Préstamo
         </DropdownMenuItem>
        

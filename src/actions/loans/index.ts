@@ -112,6 +112,7 @@ export const onGetAllLoans = async (clientId?: string) => {
                 client:{
                     select:{
                         name: true,
+                        lastName: true
                     }
                 },
                 startDate: true,
@@ -166,6 +167,21 @@ export const onDeleteLoan = async (id: string) => {
     }catch(error)
     {
         console.log("On Delete Loan Error --> ",error)
+    }
+
+}
+
+export const onGetTotalLoans = async () => {
+
+    try{
+
+
+        const loans = await db.loan.count()
+
+        return loans
+
+    }catch(error){
+        console.log("On Get Total Loans Error --> ",error)
     }
 
 }

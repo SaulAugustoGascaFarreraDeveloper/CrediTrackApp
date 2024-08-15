@@ -51,6 +51,20 @@ const handleDelteLoan = async (id: string) => {
 const CellActions = ({ row } : {row:any}) => {
   const router = useRouter();
 
+
+  const handleRouteAddPaymentClick = (e: any) => {
+
+    e.preventDefault()
+
+    router.push(`/payment/${row.original.id}`)
+  }
+
+  const handleEditLoanClick = (e: any) => {
+    e.preventDefault()
+
+    router.push(`/editLoan/${row.original.id}`)
+  } 
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -63,24 +77,24 @@ const CellActions = ({ row } : {row:any}) => {
         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
         <DropdownMenuSeparator className="border border-slate-700" />
         <DropdownMenuItem
-          onClick={() => router.push(`/editLoan/${row.original.id}`)}
+          onClick={handleEditLoanClick}
           className="flex flex-row gap-2 hover:cursor-pointer"
         >
           <Edit /> <span>Editar</span>
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => handleDelteLoan(row.original.id)}
+          onClick={(e) => {e.preventDefault(),handleDelteLoan(row.original.id)}} 
           className="flex flex-row gap-2 hover:cursor-pointer"
         >
           <Trash color="red" /> <span className="text-red-500">Eliminar</span>
         </DropdownMenuItem>
-        <DropdownMenuSeparator className="border border-slate-700" />
+        {/* <DropdownMenuSeparator className="border border-slate-700" />
         <DropdownMenuItem
           className="flex flex-row gap-2 hover:cursor-pointer font-medium"
-          onClick={() => router.push(`/payment/${row.original.id}`)}
+          onClick={handleRouteAddPaymentClick}
         >
           <DollarSignIcon /> Agregar Pago
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -110,16 +124,19 @@ export const columns: ColumnDefWithActions<Loan>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "clientId",
+    accessorKey: "client",
     header: "Cliente",
     cell: ({ row }) => {
 
-      const clientdValue = row.getValue('clientId') as string;
-      const splitValue = clientdValue.split('-')[0];
+      //const client = row.original.clientId
+      const client = row.getValue("client") as { name: string; lastName: string };
+      // const clientdValue = row.getValue(`${row.original.clientId}`) as string;
+      // const splitValue = clientdValue.split('-')[0];
+      
       
       return(
       
-      <div className="capitalize">{splitValue}</div>
+      <div className="capitalize">{`${client.name}`}</div>
     )},
   },
   {
@@ -166,6 +183,7 @@ export function DataTableLoans({data} : {data: Loan[]}) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  
 
   const table = useReactTable({
     data,
@@ -189,14 +207,14 @@ export function DataTableLoans({data} : {data: Loan[]}) {
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input
+        {/* <Input
           placeholder="Filtrar nombre..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
-        />
+        /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

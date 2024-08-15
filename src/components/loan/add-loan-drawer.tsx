@@ -62,7 +62,7 @@ export function DrawerLoan() {
 
         setIsLoading(true)
 
-        await onCreateLoan("a62902a6-8c64-4246-8582-3c5830139cb7",date as Date,finalDateCalculated as Date,form.getValues().totalAmount)
+        await onCreateLoan("a62902a6-8c64-4246-8582-3c5830139cb7",date as Date,finalDateCalculated as Date,form.getValues().totalAmount as string)
 
 
     }catch(error)

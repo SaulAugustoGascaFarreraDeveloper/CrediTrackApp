@@ -48,6 +48,43 @@ const handleDelteLoan = async (id: string) => {
 
 }
 
+const CellActions = ({ row } : {row:any}) => {
+  const router = useRouter();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+        <DropdownMenuSeparator className="border border-slate-700" />
+        <DropdownMenuItem
+          onClick={() => router.push(`/editLoan/${row.original.id}`)}
+          className="flex flex-row gap-2 hover:cursor-pointer"
+        >
+          <Edit /> <span>Editar</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => handleDelteLoan(row.original.id)}
+          className="flex flex-row gap-2 hover:cursor-pointer"
+        >
+          <Trash color="red" /> <span className="text-red-500">Eliminar</span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator className="border border-slate-700" />
+        <DropdownMenuItem
+          className="flex flex-row gap-2 hover:cursor-pointer font-medium"
+          onClick={() => router.push(`/payment/${row.original.id}`)}
+        >
+          <DollarSignIcon /> Agregar Pago
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 export const columns: ColumnDefWithActions<Loan>[] = [
   {
@@ -117,44 +154,8 @@ export const columns: ColumnDefWithActions<Loan>[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      //const payment = row.original
-
-      const router = useRouter()
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" >
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuSeparator className="border border-slate-700"  />
-            <DropdownMenuItem
-              onClick={() => router.push(`/editLoan/${row.original.id}`)}
-              className="flex flex-row gap-2  hover:cursor-pointer"
-            >
-              <Edit /> <span>Editar</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleDelteLoan(row.original.id)}
-              className="flex flex-row gap-2  hover:cursor-pointer "
-            >
-              <Trash color="red" /> <span className="text-red-500">Eliminar</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator className="border border-slate-700"  />
-            <DropdownMenuItem className="flex flex-row gap-2 hover:cursor-pointer font-medium " onClick={() => router.push(`/payment/${row.original.id}`)} >
-              <DollarSignIcon /> Agregar Pago
-            </DropdownMenuItem>
-           
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
+    cell: CellActions
+  }
 ]
 
 export function DataTableLoans({data} : {data: Loan[]}) {

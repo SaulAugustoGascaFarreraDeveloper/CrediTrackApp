@@ -48,6 +48,8 @@ const ClientsPage = () => {
 
     <div className='flex flex-col gap-3 w-full h-screen px-6 overflow-y-auto'>
 
+            <h2 className='font-semibold'>Tabla de Clientes</h2> 
+
         <div className="items-start mt-10">
             
             <DrawerDemo />

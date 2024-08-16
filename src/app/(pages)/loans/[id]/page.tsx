@@ -1,5 +1,6 @@
 "use client"
 import { onCreateLoan } from '@/actions/loans'
+import RouteMenuButton from '@/components/shared/route-menu-button'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
@@ -80,7 +81,10 @@ const CreateLoanPage = ({params} : CreateLoanPage) => {
   },[date])
 
   return (
-   <div className="flex flex-col items-center mt-10 p-6">
+   <div className="flex flex-col items-center mt-10 p-6 gap-3">
+    <h3 className='font-semibold'>
+        Agrega un  Préstamo
+    </h3>
          <Form {...form}>
 
                         <form onSubmit={form.handleSubmit(onSubmitLoan)} className="flex flex-col gap-6 mt-1" >
@@ -180,7 +184,7 @@ const CreateLoanPage = ({params} : CreateLoanPage) => {
                             />
 
                             <Button type="submit"  className="" disabled={isLoading}  >
-                                {isLoading ? <Loader2 className="animate-spin" /> : "Agregar Cliente"}
+                                {isLoading ? <Loader2 className="animate-spin" /> : "Agregar Préstamo"}
                             </Button>
 
 
@@ -188,6 +192,10 @@ const CreateLoanPage = ({params} : CreateLoanPage) => {
                         </form>
 
             </Form>
+
+            <div>
+                <RouteMenuButton />
+            </div>
    </div>
   )
 }

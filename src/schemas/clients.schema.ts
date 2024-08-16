@@ -10,7 +10,7 @@ export type ClientProps = {
 export const ClientSchema = z.object({
     name: z.string().min(1,{message:"El nombre del cliente es un campo obligatorio"}).optional(),
     lastName: z.string().min(1,{message:"El apellido es un campo obligatorio"}),
-    phone: z.string().min(1,{message:"El telefono es un campo obligatorio"})
+    phone: z.string().optional()
 
 })
 
@@ -18,7 +18,7 @@ export const ClientSchema = z.object({
 export const EditClientSchema = z.object({
     name: z.string().min(1,{message:"El nombre del cliente es un campo obligatorio"}).optional(),
     lastName: z.string().min(1,{message:"El apellido es un campo obligatorio"}).optional(),
-    phone: z.string().min(1,{message:"El telefono es un campo obligatorio"}).optional(),
+    phone: z.string().optional(),
     //currentName: z.string().optional(), // Campo adicional para el valor actual del nombre
 
 })

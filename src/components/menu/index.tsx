@@ -1,11 +1,9 @@
-
+"use client"
 import React, { useEffect, useState } from 'react'
 import MenuCard from './menu-card'
-import { onGetTotalClients } from '@/actions/clients'
-import { count } from 'console'
-import { onGetTotalLoans } from '@/actions/loans'
 
-const Menu = async () => {
+
+const Menu = () => {
 
 //   const [count,setCount] = useState<number>(0)
 

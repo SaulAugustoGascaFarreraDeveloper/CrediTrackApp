@@ -71,21 +71,29 @@ export const onUpdateLoanData = async(id: string,totalAmount?: string,startDate?
 
     try{
 
+        if(!totalAmount && !startDate && !endDate){
+            return {status: 200,message: "Ningun campo se modifico"}
+        } 
+
         if(startDate)
         {
             endDate = addDays(startDate,12)
         }
+
+        // Preparar los datos que serán actualizados
+        const updateData: any = {};
+        if (startDate) updateData.startDate = startDate;
+        if (endDate) updateData.endDate = endDate;
+        if (totalAmount) updateData.totalAmount = parseFloat(totalAmount);
+
 
 
         const loanUpdated = await db.loan.update({
             where:{
                 id: id
             },
-            data:{
-                startDate: startDate,
-                endDate: endDate,
-                totalAmount: parseFloat(totalAmount as string)
-            }
+            data: updateData
+            
         })
 
 

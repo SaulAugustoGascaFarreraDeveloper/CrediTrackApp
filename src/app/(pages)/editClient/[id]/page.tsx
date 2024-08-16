@@ -122,7 +122,7 @@ const EditClientPage = ({params} : EditClientPageProps) => {
             render={({field}) => (
               <FormItem>
                   <FormControl>
-                    <Input disabled={loading} defaultValue={isClient?.phone} value={field.value} onChange={field.onChange} />
+                    <Input disabled={loading} defaultValue={isClient?.phone as string} value={field.value} onChange={field.onChange} />
                   </FormControl>
               </FormItem>
             )}

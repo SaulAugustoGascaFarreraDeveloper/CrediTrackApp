@@ -49,7 +49,7 @@ export const onGetOneLoanData = async (id: string) => {
 
     try{
 
-        const loan = await db.loan.findUnique({
+        const loan = await db.loan.findFirst({
             where:{
                 id: id
             }

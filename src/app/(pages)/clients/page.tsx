@@ -1,4 +1,3 @@
-"use client"
 import { onCreateClient, onGetAllClients } from '@/actions/clients'
 import { DrawerDemo } from '@/components/client/add-client-drawer'
 import { DataTableDemo } from '@/components/client/client-data-table'
@@ -6,49 +5,63 @@ import RouteMenuButton from '@/components/shared/route-menu-button'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useClient } from '@/hooks/clients/use-clients'
+import { db } from '@/lib/db'
 import { currentUser } from '@clerk/nextjs/server'
 import { Client } from '@prisma/client'
 import { Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { redirect, useRouter } from 'next/navigation'
+import React, { use, useEffect, useState } from 'react'
 
-const ClientsPage = () => {
+const ClientsPage = async () => {
 
 
-    const [isClients,setIsClients] = useState<Client[] | undefined>([])
+    // const [isClients,setIsClients] = useState<Client[] | undefined>([])
 
-    const router = useRouter()
+    // const router = useRouter()
 
     
 
 
-    const getClients = async () => {
+    // const getClients = async () => {
 
-        // const user = await currentUser()
+    //     // const user = await currentUser()
 
-        // if(!user) return
+    //     // if(!user) return
 
-        const clients = await onGetAllClients()
+    //     const clients = await onGetAllClients()
 
-        if(clients){
-            setIsClients(clients.clients as []  | undefined)
+    //     if(clients){
+    //         setIsClients(clients.clients as []  | undefined)
+    //     }
+
+        
+        
+    // }
+
+    // useEffect(() => {
+
+    //     getClients()
+
+    // },[isClients])
+
+//    const user = await currentUser()
+
+//    if(!user) redirect('/sign-in')
+
+    const isClients = await db.client.findMany({
+        select:{
+            name: true,
+            phone: true,
+            lastName: true,
+            id: true
         }
-
-        
-        
-    }
-
-    useEffect(() => {
-
-        getClients()
-
-    },[isClients])
+    })
 
   return (
 
-    <div className='flex flex-col gap-3 w-full h-screen px-6 overflow-y-auto'>
+    <div className='flex flex-col gap-1 w-full h-screen px-6 overflow-y-auto'>
 
-            <h2 className='font-semibold'>Tabla de Clientes</h2> 
+        <h2 className='font-semibold'>Tabla de Clientes</h2> 
 
         <div className="items-start mt-10">
             
@@ -59,9 +72,9 @@ const ClientsPage = () => {
 
         <DataTableDemo data={isClients as [] || []} />
 
-        <div>
+        {/* <div>
         <RouteMenuButton />
-        </div>
+        </div> */}
         
       
 

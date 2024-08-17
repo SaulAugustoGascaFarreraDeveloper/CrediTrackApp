@@ -125,7 +125,18 @@ export const columns: ColumnDefWithActions<Loan>[] = [
   },
   {
     accessorKey: "client",
-    header: "Cliente",
+    //header: "Cliente",
+    header: ({column}) => {
+        return(
+          <Button
+            variant={"ghost"}
+            onClick={() => column.toggleSorting(column.getIsSorted() == "asc")}
+          >
+            Cliente
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+    },
     cell: ({ row }) => {
 
       //const client = row.original.clientId
@@ -138,6 +149,13 @@ export const columns: ColumnDefWithActions<Loan>[] = [
       
       <div className="capitalize">{`${client.name}`}</div>
     )},
+    filterFn: (row,columnId,filterValue) => {
+      const client = row.getValue(columnId) as {name: string; lasName: string}
+
+      return(
+        client.name.toLowerCase().includes(filterValue.toLowerCase())
+      )
+    }
   },
   {
     accessorKey: "startDate",
@@ -202,19 +220,24 @@ export function DataTableLoans({data} : {data: Loan[]}) {
       columnVisibility,
       rowSelection,
     },
+    initialState:{
+      pagination:{
+        pageSize: 5
+      }
+    }
   })
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        {/* <Input
+        <Input
           placeholder="Filtrar nombre..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("client")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
-        /> */}
+        />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -304,7 +327,7 @@ export function DataTableLoans({data} : {data: Loan[]}) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previo
+            Anterior
           </Button>
           <Button
             variant="outline"

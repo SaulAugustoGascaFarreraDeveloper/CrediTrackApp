@@ -128,24 +128,35 @@ export const columns: ColumnDefWithActions<Client>[] = [
   },
   {
     accessorKey: "name",
-    header: "Nombre",
+    header: ({column}) => {
+      return(
+        <Button
+          variant={'ghost'}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Nombre
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("name")}</div>
     ),
   },
   {
     accessorKey: "lastName",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Apellido
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    // header: ({ column }) => {
+    //   return (
+    //     <Button
+    //       variant="ghost"
+    //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //     >
+    //       Apellido
+    //       <ArrowUpDown className="ml-2 h-4 w-4" />
+    //     </Button>
+    //   )
+    // },
+    header: "Apellido",
     cell: ({ row }) => <div className="lowercase">{row.getValue("lastName")}</div>,
   },
   {
@@ -197,6 +208,11 @@ export function DataTableDemo({data} : {data: Client[]}) {
       columnVisibility,
       rowSelection,
     },
+    initialState:{
+      pagination:{
+        pageSize: 5
+      }
+    }
   })
 
   return (
@@ -299,7 +315,7 @@ export function DataTableDemo({data} : {data: Client[]}) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            Anterior
           </Button>
           <Button
             variant="outline"
@@ -307,7 +323,7 @@ export function DataTableDemo({data} : {data: Client[]}) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            Siguiente
           </Button>
         </div>
       </div>

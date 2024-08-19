@@ -48,7 +48,23 @@ const ClientsPage = async () => {
 
 //    if(!user) redirect('/sign-in')
 
+    const user = await currentUser()
+
+    if(!user) return  redirect("/sign-in")
+
+    const findUser = await db.user.findUnique({
+        where:{
+            clerkId: user.id
+        }
+    })
+
+    if(!findUser) return null
+
+
     const isClients = await db.client.findMany({
+        where:{
+            userId: findUser.id
+        },
         select:{
             name: true,
             phone: true,
@@ -57,11 +73,16 @@ const ClientsPage = async () => {
         }
     })
 
+    if(isClients)
+    {
+        
+    }
+
   return (
 
     <div className='flex flex-col gap-1 w-full h-screen px-6 overflow-y-auto'>
 
-        <h2 className='font-semibold'>Tabla de Clientes</h2> 
+        <h2 className='font-semibold '>Tabla de Clientes</h2> 
 
         <div className="items-start mt-10">
             

@@ -12,19 +12,10 @@ type MenuCardProps = {
     countNumber?: number
 }
 
-const handleChangeRoute = () => {
-
-    return(
-        <Link href={'/clients'}  />
-    )
-
-}
-
 
 const MenuCard = ({title,description,content,route,countNumber} : MenuCardProps) => {
 
    
-
     const router = useRouter()
 
   return (
@@ -35,7 +26,7 @@ const MenuCard = ({title,description,content,route,countNumber} : MenuCardProps)
         </CardHeader>
         <CardContent>
             <h2>{content}</h2>
-            {/* <p>Cantidad: {countNumber}</p> */}
+            <p>Cantidad: {countNumber} {title.startsWith("C" || "c") ? "Clientes" : "Préstamos"}</p>
         </CardContent>
     </Card>
   )

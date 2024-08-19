@@ -3,7 +3,9 @@ import { DrawerLoan } from '@/components/loan/add-loan-drawer'
 import { DataTableLoans } from '@/components/loan/loan-data-table'
 import RouteMenuButton from '@/components/shared/route-menu-button'
 import { db } from '@/lib/db'
+import { currentUser } from '@clerk/nextjs/server'
 import { Loan } from '@prisma/client'
+import { redirect } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const LoansPage = async () => {
@@ -22,7 +24,25 @@ const LoansPage = async () => {
   //   handleLoans()
   // },[isLoans])
 
+
+  const user = await currentUser()
+
+    if(!user) return  redirect("/sign-in")
+
+    const findUser = await db.user.findUnique({
+        where:{
+            clerkId: user.id
+        }
+    })
+
+    if(!findUser) return null
+
   const isLoans = await db.loan.findMany({
+    where:{
+      client:{
+        userId: findUser.id
+      }
+    },
     select:{
       client:{
         select:{

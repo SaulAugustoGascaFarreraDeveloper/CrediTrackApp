@@ -6,6 +6,7 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import { useToast } from "@/components/ui/use-toast"
 import { useState } from "react"
 import { onCreateClient, onUpdateClientData } from "@/actions/clients"
+import { useRouter } from "next/navigation"
 
 export const useClient =  (id?: string) => {
 
@@ -15,6 +16,9 @@ export const useClient =  (id?: string) => {
 
 
     const {toast} = useToast()
+
+
+    const router = useRouter()
 
 
     const [loading,setLoading] = useState<boolean>(false)
@@ -44,6 +48,8 @@ export const useClient =  (id?: string) => {
             setLoading(false)
 
             reset()
+
+            router.refresh()
         }
 
     })

@@ -12,7 +12,6 @@ export const  onCreateClient = async (name: string,lastName: string,phone: strin
 
     if(!user) return null
 
-
     try{
 
       
@@ -77,6 +76,7 @@ export const onGetAllClients = async () => {
         const clients = await db.client.findMany({
             //take: 17,
             //skip: (1 - 1) * 17,
+           
             select:{
                 name: true,
                 phone: true,
